@@ -37,4 +37,4 @@ elephant
 cat
 dog
 monkeys
-wher
+where the red dog lives
