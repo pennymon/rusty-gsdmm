@@ -38,3 +38,5 @@ cat
 dog
 monkeys
 where the red dog lives
+red dog lives in the house
+blue
