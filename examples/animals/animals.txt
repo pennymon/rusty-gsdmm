@@ -128,4 +128,5 @@ elephant
 cat
 dog
 monkeys
-where the red dog liv
+where the red dog lives
+red dog lives in the h
