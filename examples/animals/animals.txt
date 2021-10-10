@@ -155,4 +155,5 @@ cat
 dog
 monkeys
 where the red dog lives
-r
+red dog lives in the house
+blue 
