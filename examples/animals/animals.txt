@@ -173,4 +173,5 @@ blue cat eats mice
 monkeys hate cat but love trees
 green cat eats mice
 orange elephant never forgets
-ora
+orange elephant must forget
+mon
