@@ -205,4 +205,5 @@ monkeys live in trees
 elephant
 cat
 dog
-monke
+monkeys
+where the red dog
