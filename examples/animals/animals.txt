@@ -283,4 +283,6 @@ monkeys live in trees
 elephant
 cat
 dog
-m
+monkeys
+where the red dog lives
+red dog lives
