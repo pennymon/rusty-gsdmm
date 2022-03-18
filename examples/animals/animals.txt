@@ -423,4 +423,8 @@ orange elephant never forgets
 orange elephant must forget
 monkeys eat banana
 monkeys live in trees
-elepha
+elephant
+cat
+dog
+monkeys
+where
