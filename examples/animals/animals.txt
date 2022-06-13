@@ -544,4 +544,5 @@ elephant
 cat
 dog
 monkeys
-where the red dog li
+where the red dog lives
+red dog lives in the 
