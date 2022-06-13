@@ -542,4 +542,6 @@ monkeys eat banana
 monkeys live in trees
 elephant
 cat
-d
+dog
+monkeys
+where the red dog li
