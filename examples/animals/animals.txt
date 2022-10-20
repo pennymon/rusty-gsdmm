@@ -639,4 +639,5 @@ where the red dog lives
 red dog lives in the house
 blue cat eats mice
 monkeys hate cat but love trees
-green cat 
+green cat eats mice
+orange elephant 
