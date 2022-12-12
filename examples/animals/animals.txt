@@ -669,4 +669,5 @@ green cat eats mice
 orange elephant never forgets
 orange elephant must forget
 monkeys eat banana
-monke
+monkeys live in trees
+elephant
