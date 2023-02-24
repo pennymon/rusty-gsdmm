@@ -700,4 +700,5 @@ elephant
 cat
 dog
 monkeys
-w
+where the red dog lives
+re
