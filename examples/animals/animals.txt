@@ -703,4 +703,5 @@ monkeys
 where the red dog lives
 red dog lives in the house
 blue cat eats mice
-monke
+monkeys hate cat but love trees
+gre
