@@ -713,4 +713,5 @@ elephant
 cat
 dog
 monkeys
-wh
+where the red dog lives
+red
