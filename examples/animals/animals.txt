@@ -844,4 +844,5 @@ cat
 dog
 monkeys
 where the red dog lives
-red dog lives in 
+red dog lives in the house
+blue cat eats mic
