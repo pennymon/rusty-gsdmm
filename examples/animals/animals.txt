@@ -923,4 +923,5 @@ dog
 monkeys
 where the red dog lives
 red dog lives in the house
-blue cat ea
+blue cat eats mice
+monkeys hate ca
