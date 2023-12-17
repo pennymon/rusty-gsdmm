@@ -22,4 +22,5 @@ live
 where
 red
 hate
-mu
+must
+never
