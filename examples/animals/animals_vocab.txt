@@ -16,4 +16,10 @@ cat
 dog
 green
 elephant
-ba
+banana
+mice
+live
+where
+red
+hate
+mu
