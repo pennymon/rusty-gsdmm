@@ -11,4 +11,9 @@ eat
 but
 house
 in
-bl
+blue
+cat
+dog
+green
+elephant
+ba
