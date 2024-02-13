@@ -2,4 +2,5 @@ the red dog loves cats
 the green monkey eats bananas
 the yellow giraffe stands by the tree
 dog loves cats
-yellow gi
+yellow giraffe
+green monke
