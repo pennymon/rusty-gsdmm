@@ -11,4 +11,6 @@ dog and cat join forces
 dog
 dog
 dog
-d
+dog
+dog
+dog
