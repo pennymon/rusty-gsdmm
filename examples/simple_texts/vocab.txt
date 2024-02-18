@@ -1,3 +1,7 @@
 dog
 cat
-parr
+parrot
+elephant
+moose
+elk
+giraf
