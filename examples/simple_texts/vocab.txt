@@ -4,4 +4,6 @@ parrot
 elephant
 moose
 elk
-giraf
+giraffe
+finch
+monkey
