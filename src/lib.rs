@@ -74,3 +74,29 @@ impl GSDMM {
         for i in 0..D {
             let z = choices[i].clone();
             let ref doc = doc_vectors[i];
+            d_z[i] = z;
+            m_z[z] += 1;
+            n_z[z] += doc.len() as u32;
+            let ref mut clust_words: FnvHashMap<usize, u32> = n_z_w[z];
+            for word in doc {
+                if !clust_words.contains_key(word) {
+                    clust_words.insert(word.clone(), 0_u32);
+                }
+                    * clust_words.get_mut(word).unwrap() += 1_u32;
+            }
+        }
+
+        GSDMM {
+            alpha: alpha,
+            beta: beta,
+            K: K,
+            V: V,
+            D: D,
+            maxit:maxit,
+            doc_vectors:doc_vectors,
+            clusters: clusters.clone(),     // Don't totally get why we need the clone here!
+            labels: d_z,
+            cluster_counts: m_z,
+            cluster_word_counts: n_z,
+            word_index_map: word_index_map,
+            index_word_map: index_word_map,
