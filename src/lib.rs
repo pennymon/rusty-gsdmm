@@ -42,3 +42,35 @@ impl GSDMM {
                     word_index_map.insert(word.clone(), index);
                     index_word_map.insert(index, word.clone());
                     index+=1;
+                }
+                doc_vector.push(word_index_map.get(word).unwrap().clone());
+            }
+
+            // dedupe vector and compact
+            doc_vector.sort();
+            doc_vector.dedup();
+            doc_vector.shrink_to_fit();
+
+            // stash
+            doc_vectors.push(doc_vector);
+        }
+        let V = index as f64;
+        println!("Fitting with alpha={}, beta={}, K={}, maxit={}, vocab size={}", alpha, beta, K, maxit, V as u32);
+
+        let clusters = (0_usize..K).collect::<Vec<usize>>();
+        let mut d_z: Vec<usize> = (0_usize..D).map(|_| 0_usize).collect::<Vec<usize>>(); // doc labels
+        let mut m_z: Vec<u32> = GSDMM::zero_vector(K);  // cluster sizes
+        let mut n_z: Vec<u32> = GSDMM::zero_vector(K);  // cluster word counts
+        let mut n_z_w = Vec::<FnvHashMap<usize, u32>>::with_capacity(K);  // container for cluster word distributions
+        for _ in 0_usize..K {
+            let m = FnvHashMap::<usize, u32>::with_capacity_and_hasher(max(vocab.len() / 10, 100), Default::default());
+            &n_z_w.push(m);
+        }
+
+        // randomly initialize cluster assignment
+        let p = (0..K).map(|_| 1_f64 / (K as f64)).collect::<Vec<f64>>();
+
+        let choices = random_choice().random_choice_f64(&clusters, &p, D) ;
+        for i in 0..D {
+            let z = choices[i].clone();
+            let ref doc = doc_vectors[i];
