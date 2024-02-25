@@ -100,3 +100,25 @@ impl GSDMM {
             cluster_word_counts: n_z,
             word_index_map: word_index_map,
             index_word_map: index_word_map,
+            cluster_word_distributions: n_z_w
+        }
+    }
+
+    pub fn fit(&mut self) {
+        let mut number_clusters = self.K;
+        for it in 0..self.maxit {
+            let mut total_transfers = 0;
+            for i in 0..self.D {
+                let ref doc = self.doc_vectors[i];
+                let doc_size = doc.len() as u32;
+
+                // remove the doc from its current cluster
+                let z_old = self.labels[i];
+                self.cluster_counts[z_old] -= 1;
+                self.cluster_word_counts[z_old] -= doc_size;
+
+                // modify the map: enclose it in a block so we can borrow views again.
+                {
+                    let ref mut old_clust_words: FnvHashMap<usize, u32> = self.cluster_word_distributions[z_old];
+                    for word in doc {
+                        *old_clust_words.get_mut(word).unwrap() -= 1_u32;
