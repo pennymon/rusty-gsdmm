@@ -145,3 +145,28 @@ impl GSDMM {
                 self.cluster_word_counts[z_new] += doc_size;
 
                 {
+                    let ref mut new_clust_words: FnvHashMap<usize, u32> = self.cluster_word_distributions[z_new];
+                    for word in doc {
+                        if !new_clust_words.contains_key(word) {
+                            new_clust_words.insert(word.clone(), 0_u32);
+                        }
+                            *new_clust_words.get_mut(word).unwrap() += 1_u32;
+                    }
+                }
+            }
+            let new_number_clusters = self.cluster_word_distributions.iter().map(|c| if c.len()>0 {1} else {0} ).sum();
+            println!("Iteration {}: {} docs transferred with {} clusters populated.", it, total_transfers, new_number_clusters);
+
+            // apply ad-hoc convergence test
+            if total_transfers==0 && new_number_clusters==number_clusters {
+                println!("Converged after {} iterations. Solution has {} clusters.", it, new_number_clusters);
+                break
+            }
+            number_clusters = new_number_clusters;
+        }
+    }
+
+    pub fn score(&self, doc:&Vec<usize>) -> Vec<f64> {
+        /// Score an input document using the formula of Yin and Wang 2014 (equation 3)
+        /// http://dbgroup.cs.tsinghua.edu.cn/wangjy/papers/KDD14-GSDMM.pdf
+        ///
