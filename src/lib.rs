@@ -122,3 +122,26 @@ impl GSDMM {
                     let ref mut old_clust_words: FnvHashMap<usize, u32> = self.cluster_word_distributions[z_old];
                     for word in doc {
                         *old_clust_words.get_mut(word).unwrap() -= 1_u32;
+
+                        // compact dictionary once a key is exausted.
+                        if old_clust_words[word] == 0_u32 {
+                            old_clust_words.remove(word);
+                        }
+                    }
+                }
+
+                // update the probability vector
+                let p = self.score(&doc);
+
+                // choose the next cluster randomly according to the computed probability
+                let z_new: usize = random_choice().random_choice_f64(&self.clusters, &p, 1)[0].clone();
+
+                // transfer document to the new cluster
+                if z_new != z_old {
+                    total_transfers += 1;
+                }
+                self.labels[i] = z_new;
+                self.cluster_counts[z_new] += 1_u32;
+                self.cluster_word_counts[z_new] += doc_size;
+
+                {
