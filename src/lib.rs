@@ -192,3 +192,25 @@ impl GSDMM {
         for label in 0_usize..self.K {
             let lN1 = (self.cluster_counts[label] as f64 + self.alpha).ln();
             let mut lN2 = 0_f64;
+            let mut lD2 = 0_f64;
+
+            let ref cluster: FnvHashMap<usize, u32> = self.cluster_word_distributions[label];
+
+            for word in doc {
+                lN2 += (*cluster.get(word).unwrap_or(&0_u32) as f64 + self.beta).ln();
+            }
+            for j in 1_u32..(doc_size+1) {
+                lD2 += ((self.cluster_word_counts[label] + j) as f64 - 1_f64 + self.V * self.beta).ln();
+            }
+            p[label] = (lN1 - lD1 + lN2 - lD2).exp();
+        }
+
+        // normalize the probability
+        let pnorm: f64 = p.iter().sum();
+        if pnorm>0_f64 {
+            for label in 0_usize..self.K {
+                p[label] = p[label] / pnorm;
+            }
+        }
+        p
+    }
