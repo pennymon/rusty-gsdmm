@@ -214,3 +214,31 @@ impl GSDMM {
         }
         p
     }
+
+    fn zero_vector(size:usize) -> Vec<u32>
+    {
+        let mut v = Vec::<u32>::with_capacity(size);
+        for _ in 0_usize..size {
+            v.push(0_u32)
+        }
+        v
+    }
+
+}
+
+#[test]
+fn simple_run() {
+    let mut vocab = HashSet::<String>::new();
+    vocab.insert("A".to_string());
+    vocab.insert("B".to_string());
+    vocab.insert("C".to_string());
+
+    let mut docs = Vec::<Vec<String>>::new();
+    docs.push(vec!("A".to_string()));
+    docs.push(vec!("A".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
