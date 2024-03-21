@@ -242,3 +242,29 @@ fn simple_run() {
     docs.push(vec!("B".to_string()));
     docs.push(vec!("B".to_string()));
     docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("B".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+    docs.push(vec!("C".to_string()));
+
+    let mut model = GSDMM::new(0.1, 0.00001, 10, 30, vocab, docs);
+    model.fit();
+
+    // check the total number across all partitions is equal to the number of docs
+    assert_eq!(18, model.cluster_counts.iter().sum::<u32>());
+
+    // check that we get three clusters
+    assert_eq!(3, model.cluster_counts.into_iter().filter(|x| x>&0_u32 ).collect::<Vec<u32>>().len());
+
+    // check that the clusters are pure
+    let mut check_map = HashMap::<usize,String>::new();
+    for (i,label) in vec!("A","A","B","B","B","B","B","B","B","B","C","C","C","C","C","C","C","C").into_iter().enumerate() {
+        if check_map.contains_key(&model.labels[i]) {
+            assert_eq!(check_map[&model.labels[i]], label);
+        } else {
