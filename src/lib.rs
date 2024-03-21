@@ -268,3 +268,29 @@ fn simple_run() {
         if check_map.contains_key(&model.labels[i]) {
             assert_eq!(check_map[&model.labels[i]], label);
         } else {
+            check_map.insert(model.labels[i], label.to_string());
+        }
+
+    }
+}
+
+#[test]
+fn indexing() {
+    let mut vocab = HashSet::<String>::new();
+    vocab.insert("A".to_string());
+    vocab.insert("B".to_string());
+    vocab.insert("C".to_string());
+    vocab.insert("D".to_string());
+
+    let mut docs = Vec::<Vec<String>>::new();
+    docs.push(vec!("A".to_string(),"B".to_string()));
+    docs.push(vec!("D".to_string()));
+    docs.push(vec!("C".to_string()));
+
+    let mut model = GSDMM::new(0.1, 0.00001, 10, 30, vocab, docs);
+
+    // test the index mapping
+    assert_eq!("A", model.index_word_map.get(&0_usize).unwrap());
+    assert_eq!("B", model.index_word_map.get(&1_usize).unwrap());
+    assert_eq!("C", model.index_word_map.get(&3_usize).unwrap());
+    assert_eq!("D", model.index_word_map.get(&2_usize).unwrap());
