@@ -294,3 +294,9 @@ fn indexing() {
     assert_eq!("B", model.index_word_map.get(&1_usize).unwrap());
     assert_eq!("C", model.index_word_map.get(&3_usize).unwrap());
     assert_eq!("D", model.index_word_map.get(&2_usize).unwrap());
+    assert_eq!(0_usize, *model.word_index_map.get("A").unwrap());
+    assert_eq!(1_usize, *model.word_index_map.get("B").unwrap());
+    assert_eq!(2_usize, *model.word_index_map.get("D").unwrap());
+    assert_eq!(3_usize, *model.word_index_map.get("C").unwrap());
+
+}
