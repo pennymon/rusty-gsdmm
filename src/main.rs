@@ -51,3 +51,32 @@ fn main() {
 
     // get the data and vocabulary
     let vocab:HashSet<String> = lines_from_file(&args.arg_vocabfile).into_iter().collect();
+    let docs:Vec<Vec<String>> = lines_from_file(&args.arg_datafile).into_iter().map(|line| {
+        let mut term_vector = line.to_owned()
+            .split_whitespace()
+            .map(|s| s.to_owned())
+            .filter(|s| (&vocab).contains(s))
+            .collect::<Vec<String>>();
+
+        // sort and dedupe: this implementation requires binary term counts
+        term_vector.sort();
+        term_vector.dedup();
+        term_vector
+    }).collect::<Vec<Vec<String>>>();
+
+    let mut model = GSDMM::new(args.flag_alpha, args.flag_beta, args.flag_k, args.flag_maxit, vocab, docs);
+    model.fit();
+
+    // write the labels
+    {
+        let fname = (&args.arg_outprefix).clone() + "labels.csv";
+        let error_msg = format ! ("Could not write file {}!", fname);
+        let mut f = File::create( fname ).expect( & error_msg);
+        let mut scored = Vec::<(String,String)>::new();
+
+        // zip with the input data so we get clustered, raw input documents in the output set
+        for (doc,txt) in (&model.doc_vectors).iter().zip(lines_from_file(&args.arg_datafile).iter()) {
+            let p = model.score( & doc);
+            let mut row = p.iter().enumerate().collect::<Vec<_>>();
+            if row_has_nan(&row, txt) {
+                scored.push(("-1".to_string(), "0".to_string()));
