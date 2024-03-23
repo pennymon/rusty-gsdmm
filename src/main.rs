@@ -80,3 +80,19 @@ fn main() {
             let mut row = p.iter().enumerate().collect::<Vec<_>>();
             if row_has_nan(&row, txt) {
                 scored.push(("-1".to_string(), "0".to_string()));
+            } else {
+                row.sort_by(|a, b| (a.1.partial_cmp(b.1)).unwrap());
+                let line = row.pop().unwrap();
+                scored.push((line.0.to_string(), line.1.to_string()));
+            }
+        }
+
+        for (label, score) in scored {
+            let _ = f.write((label + "," + &score + "\n").as_bytes());
+        }
+    }
+
+    // write the cluster descriptions
+    {
+        let fname = (&args.arg_outprefix).clone() + "cluster_descriptions.txt";
+        let error_msg = format!("Could not write file {}!", fname);
