@@ -96,3 +96,29 @@ fn main() {
     {
         let fname = (&args.arg_outprefix).clone() + "cluster_descriptions.txt";
         let error_msg = format!("Could not write file {}!", fname);
+        let mut f = File::create(fname).expect(&error_msg);
+        for k in 0..args.flag_k {
+            let ref word_dist = model.cluster_word_distributions[k];
+            let mut line = k.to_string() + " ";
+            let mut dist_counts:Vec<String> = word_dist.iter().map(|(a,b)| model.index_word_map.get(a).unwrap().to_string() + ":" + &b.clone().to_string() ).collect();
+            dist_counts.sort();
+            line += &dist_counts.join(" ");
+            let _ = f.write((line+"\n").as_bytes());
+        }
+    }
+
+    fn lines_from_file(filename: &str) -> Vec<String>
+    {
+        let error_msg = format!("Could not read file {}!", filename);
+        let file = File::open(filename).expect(&error_msg);
+        let buf = BufReader::new(file);
+        buf.lines().map(|l| l.expect("Could not parse line!")).collect()
+    }
+
+    fn row_has_nan(row:&Vec<(usize, &f64)>, doc:&String) -> bool {
+        for entry in row {
+            if entry.1.is_nan() {
+                println!("Cluster: {:?} has NaN score for document {:?}", entry, doc);
+                return true
+            }
+        }
